@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auto 2 Ads Viewer</title>
+  <style>
+    body {
+      background: #f0f4f8;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .ads-wrapper {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .ad-container {
+      width: 300px;
+      height: 500px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      position: relative;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .timer {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ads-wrapper">
+    <div class="ad-container" id="ad1">
+      <iframe src="https://www.profitableratecpm.com/w943aby3?key=79aedc3c66c66541cf32baccce5a0773"></iframe>
+      <div class="timer" id="timer1">5</div>
+    </div>
+
+    <div class="ad-container" id="ad2">
+      <iframe src="https://www.profitableratecpm.com/w943aby3?key=79aedc3c66c66541cf32baccce5a0773"></iframe>
+      <div class="timer" id="timer2">5</div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button onclick="startAds()">Start</button>
+    <button onclick="stopAds()">Stop</button>
+  </div>
+
+  <script>
+    let intervalId = null;
+    let countdown1 = 5;
+    let countdown2 = 5;
+    let countdownTimerId1 = null;
+    let countdownTimerId2 = null;
+
+    function showAds() {
+      const ad1 = document.getElementById("ad1");
+      const ad2 = document.getElementById("ad2");
+      const timer1 = document.getElementById("timer1");
+      const timer2 = document.getElementById("timer2");
+
+      // Show both ads
+      ad1.style.display = "flex";
+      ad2.style.display = "flex";
+
+      countdown1 = 5;
+      countdown2 = 5;
+      timer1.textContent = countdown1;
+      timer2.textContent = countdown2;
+
+      // Start countdowns
+      countdownTimerId1 = setInterval(() => {
+        countdown1--;
+        if (countdown1 >= 0) timer1.textContent = countdown1;
+        if (countdown1 <= 0) clearInterval(countdownTimerId1);
+      }, 1000);
+
+      countdownTimerId2 = setInterval(() => {
+        countdown2--;
+        if (countdown2 >= 0) timer2.textContent = countdown2;
+        if (countdown2 <= 0) clearInterval(countdownTimerId2);
+      }, 1000);
+
+      // Hide ads after 5 seconds
+      setTimeout(() => {
+        ad1.style.display = "none";
+        ad2.style.display = "none";
+      }, 5000);
+    }
+
+    function startAds() {
+      if (!intervalId) {
+        showAds();
+        intervalId = setInterval(showAds, 2000); // every 2 seconds
+      }
+    }
+
+    function stopAds() {
+      clearInterval(intervalId);
+      intervalId = null;
+      clearInterval(countdownTimerId1);
+      clearInterval(countdownTimerId2);
+      document.getElementById("ad1").style.display = "none";
+      document.getElementById("ad2").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
